@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Icons</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+    <div class="container-1">
+        <nav>
+            <div class="logo">
+                <h1>Aminecanfly</h1>
+            </div>
+            <div class="social-media">
+                <a target="_blank" href="https://github.com/Amine-Lamarr"><i class="fab fa-github"></i></a>
+                <a target="_blank" href="https://www.instagram.com/aminecanflyy?igsh=MTMwNmJhNm1rMTB6Nw=="><i class="fab fa-instagram"></i></a>
+                <a target="_blank" href="https://wa.me/qr/TROTYNYLUCIIK1"><i class="fab fa-whatsapp"></i></a>
+                <a target="_blank" href="https://app.roboflow.com/aminecanfly/moroccan-coins-vk0qe/models"><i class="fas fa-database"></i></a>
+            </div>
+        </nav>
+        <div class="content-1">
+            <div class="pic">
+                <img src="money.png" alt="">
+            </div>
+            <div class="context">
+                <h1 class="h1">Introduction</h1>
+                <p class="p">Hey, I’m Amine from Morocco, and I created this website to detect Moroccan money, including both bills and coins. I trained an AI model for object detection called YOLO, specifically the YOLOv8m version, which is capable of recognizing objects in images with high accuracy. To make this possible, I collected and created my own dataset using photos I took with my phone, covering five categories: 5dh, 10dh, 50dh, 100dh, and 200dh (yep me too i don't know why i didn't unclude 20DH with them :), but it still works perfectly!) I uploaded the dataset to Roboflow, making it completely public so anyone can access and use it for learning or experimentation. The concept behind this website is simple yet practical: you upload an image containing Moroccan money from the categories I mentioned, and the AI model will automatically detect each bill or coin in the picture, identify its value, and calculate the total amount for you. For example, if you upload a picture containing a 100dh and a 50dh bill, the model will detect both and display the total sum immediately. This project combines my passion for AI and programming with a practical, real-world application that anyone can try. I worked hard to make the system as accurate and user-friendly as possible, and I hope you enjoy using it and find it both fun and useful while exploring AI object detection.</p>
+                <a target="_blank" href="https://app.roboflow.com/aminecanfly/moroccan-coins-vk0qe"><button class="button">dataset</button></a>
+            </div>
+        </div>
+    </div>
+    <div class="content-2">
+<header>
+  <h1>Moroccan Money Detection with YOLO😉</h1>
+</header>
+
+<div class="container">
+  <!-- Left Side -->
+  <div class="left">
+    <h2 style="text-align:center;">Upload Image</h2>
+    <label for="imageUpload" class="upload-label">Choose Image</label>
+    <input type="file" id="imageUpload" accept="image/*" onchange="previewImage(event)">
+    <div class="image-box">
+      <img id="previewImg" src="" alt="">
+    </div>
+    <div style="text-align:center;">
+      <button id="predictBtn" class="btn">Predict</button>
+    </div>
+  </div>
+
+  <!-- Right Side -->
+  <div class="right">
+    <h2 class="result" style="text-align:center;">Result</h2>
+    <div class="image-box">
+      <img id="resultImage" src="" alt="">
+    </div>
+    <div class="total" id="totalAmount">Total: -- DH</div>
+  </div>
+</div>
+</div>
+<script>
+    function previewImage(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById("previewImg").src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+  document.getElementById("predictBtn").addEventListener("click", async () => {
+  const fileInput = document.getElementById("imageUpload");
+  if (!fileInput.files.length) {
+    alert("Please upload an image first!");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", fileInput.files[0]);
+
+  const response = await fetch("http://127.0.0.1:8000/prediction", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await response.json();
+
+  document.getElementById("resultImage").src =
+    "data:image/jpeg;base64," + data.annotated_image;
+
+  document.getElementById("totalAmount").innerText =
+    "Total: " + data.total_money + " DH";
+});
+
+</script>
+</body>
+</html>
