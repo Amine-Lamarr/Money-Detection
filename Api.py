@@ -6,7 +6,7 @@ import cv2
 import base64
 
 # model_name = "BestModelCoins.pt"
-model_name = "C:/Users/lenovo/OneDrive/Desktop/Money Detection/best_money_model.pt"
+model_name = "best_money_model.pt"
 model = YOLO(model_name)
 app = FastAPI()
 
