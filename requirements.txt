@@ -4,5 +4,4 @@ numpy
 opencv-python
 ultralytics
 torch==2.5.1
-torchvision==0.23.0
-
+torchvision==0.20.0
