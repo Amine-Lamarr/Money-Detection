@@ -3,5 +3,6 @@ uvicorn
 numpy
 opencv-python
 ultralytics
-torch==2.5.1+cpu
-torchvision==0.23.0+cpu
+torch==2.5.1
+torchvision==0.23.0
+
